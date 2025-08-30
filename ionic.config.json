@@ -1,0 +1,7 @@
+{
+  "name": "News mobile apk",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
