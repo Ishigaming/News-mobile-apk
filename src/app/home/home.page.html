@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Top news</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let article of articles">
+      <ion-thumbnail slot="start">
+        <img [src]="article.urlToImage || 'assets/no-image.png'">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.description }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

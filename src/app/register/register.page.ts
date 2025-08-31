@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CountriesService } from '../services/services/countries';
 import { last } from 'rxjs';
+import { AlertController, ToastController } from '@ionic/angular';
+import * as CryptoJS from 'crypto-js';
+
 
 @Component({
   selector: 'app-register',
@@ -16,7 +19,14 @@ export class RegisterPage implements OnInit {
   countries: any[] = [];
   showPassword = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private countrisService: CountriesService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private countrisService: CountriesService,
+    public alertController: AlertController,
+    private toastController: ToastController
+    ) {
+      
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -37,16 +47,59 @@ export class RegisterPage implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm.value);
+    if (this.registerForm.valid){
+      console.log(this.registerForm.value);
+
+      this.router.navigate(['/login'])
+     }
   }
 
-  doRegister() {
+  async doRegister() {
+    if(this.registerForm.hasError('passwordMismatch')){
+      const toast = await this.toastController.create({
+        message: 'Passwords do not match',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      })
+      await toast.present();
+      return;
+    }
     if (this.registerForm.valid) {
-      const { name, lastName, country,  email, password } = this.registerForm.value;
-      console.log("Registering user:", { name, lastName, country, email, password });
+      const formValues = this.registerForm.value;
+      const hashedPassword = CryptoJS.SHA256(formValues.password).toString();
+
+      let users: any[] = JSON.parse(localStorage.getItem('users') || '[]');
+
+      const newUser = {
+        name: formValues.name,
+        lastName: formValues.lastName,
+        nationality: formValues.nationality,
+        email: formValues.email,
+        password: hashedPassword
+      };
+      users.push(newUser);
+
+      localStorage.setItem('users', JSON.stringify(users));
+
+      const toast = await this.toastController.create({
+        message: 'Account succefully created',
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      })
+
+      await toast.present();
       this.router.navigate(['/login']);
+
     } else {
-      console.log("Invalid form");
+       const toast = await this.toastController.create({
+        message: 'Please fill in all required fields',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      });
+      await toast.present();
     }
   }
 

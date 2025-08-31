@@ -10,15 +10,44 @@
 
 <ion-content>
   <ion-card-content>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm" (ngSubmit)="doRegister()">
       <ion-item>
-        <ion-input label="Name" labelPlacement="stacked" formControlName="name"></ion-input>
+        <ion-input label="Name" labelPlacement="stacked" formControlName="name"  placeholder="Jane"></ion-input>
+        <ion-input label="Last name" labelPlacement="stacked" formControlName="lastName"  placeholder="Doe"></ion-input>
+      </ion-item>
+        <ion-item>
+        <ion-select label="Nationality" labelPlacement="stacked" formControlName="nationality" placeholder="Select country">
+          <ion-select-option *ngFor="let country of countries" [value]="country.name">
+            {{ country.unicodeFlag }} {{ country.name }}
+          </ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item>
-        <ion-input label="Last name" labelPlacement="stacked" formControlName=" last name"></ion-input>
+        <ion-input label="Email" labelPlacement="stacked" formControlName="email" placeholder="jane@doe.com"></ion-input>
       </ion-item>
-      <ion-label position="floating">Country</ion-label>
-        <ion-input formControlName="name"></ion-input>
+        <ion-item>
+          <ion-input label="Password" labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="**********"></ion-input>
+            <ion-icon
+              slot="end"
+              [name]="showPassword ? 'eye-off' : 'eye'"
+              (click)="togglePassword()">
+            </ion-icon>
+        </ion-item>  
+        <ion-item>
+          <ion-input label="Confirm password" labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword" placeholder="**********"></ion-input>
+            <ion-icon
+              slot="end"
+              [name]="showPassword ? 'eye-off' : 'eye'"
+              (click)="togglePassword()">
+            </ion-icon>
+        </ion-item>
+        <br>
+          <p>
+            <ion-router-link routerLink="/login">Already registered?</ion-router-link>
+          </p>
+        <br>
+        <ion-button shape="round" type="submit" >
+          <ion-icon name="person-add-outline"></ion-icon>Sing up</ion-button> 
     </form>
   </ion-card-content>
 </ion-content>
