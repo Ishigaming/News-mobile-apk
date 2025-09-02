@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,15 @@ export class NewsService {
 
   constructor(private http: HttpClient) {}
 
-    getTopHeadlines(country: string = 'us'): Observable<any> {
-      return this.http.get(`${this.baseUrl}/top-headlines?country=${country}&apikey=${this.apiKey}`);
+  getTopHeadlines(country: string = 'us', page: number = 1, category: string = ''): Observable<any> {
+    let url = `${this.baseUrl}/top-headlines?country=${country}&page=${page}&apiKey=${this.apiKey}`;
+    
+    if (category) {
+      url += `&category=${category}`;
     }
+  
+    return this.http.get(url);
+  }
     searchNews(query: string): Observable<any> {
       return this.http.get(`${this.baseUrl}/everything?q=${query}&apiKey=${this.apiKey}`);
     }

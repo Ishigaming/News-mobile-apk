@@ -1,0 +1,33 @@
+<ion-content>
+  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+    <ion-item>
+      <ion-label position="stacked">Name</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input formControlName="lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Nationality</ion-label>
+      <ion-select formControlName="nationality" placeholder="Select country">
+        <ion-select-option *ngFor="let country of countries" [value]="country.name">
+          {{ country.unicodeFlag }} {{ country.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input formControlName="email" type="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Current password</ion-label>
+      <ion-input formControlName="currentPassword" type="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">New password</ion-label>
+      <ion-input formControlName="newPassword" type="password"></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit">Save</ion-button>
+  </form>
+</ion-content>

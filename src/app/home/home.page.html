@@ -1,21 +1,66 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>Top news</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
-  <ion-list *ngIf="!loading">
-    <ion-item *ngFor="let article of articles">
-      <ion-thumbnail slot="start">
-        <img [src]="article.urlToImage || 'assets/no-image.png'">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.description }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</ion-content>
+<ion-menu side="end" menuId="main-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-item lines="none" detail="false" (click)="goToProfile()">
+        <ion-avatar slot="start">
+          <img [src]="user.avatar || 'assets/avatar.png'" alt="user" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ user.name }} {{ user.lastName }}</h2>
+          <p>Online</p>
+        </ion-label>
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+      </ion-item>    </ion-toolbar>
+  </ion-header>
+  <ion-content> 
+    <ion-list>
+        <ion-item button (click)="changeCategory('business')">Business</ion-item>
+        <ion-item button (click)="changeCategory('entertainment')">Entertainment</ion-item>
+        <ion-item button (click)="changeCategory('general')">General</ion-item>
+        <ion-item button (click)="changeCategory('health')">Health</ion-item>
+        <ion-item button (click)="changeCategory('science')">Science</ion-item>
+        <ion-item button (click)="changeCategory('sports')">Sports</ion-item>
+        <ion-item button (click)="changeCategory('technology')">Technology</ion-item>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-item button (click)="logout()">
+        <ion-icon name="exit-outline"></ion-icon>Logout</ion-item>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar color="primary">
+      <ion-title>Top news</ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="main-menu">
+          <ion-avatar>
+            <img src="assets/avatar.png" alt="user" />
+          </ion-avatar>
+        </ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+      <ion-list *ngIf="!loading">
+        <ion-item *ngFor="let article of articles" (click)="openArticle(article)">
+          <ion-thumbnail slot="start">
+            <img [src]="article.urlToImage || 'assets/no-image.png'">
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreNews($event)">
+      <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más noticias...">
+    </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-content>
+</div>

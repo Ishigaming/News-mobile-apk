@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>The news</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openInBrowser()">
+        <ion-icon name="open-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-img [src]="article.urlToImage || 'assets/no-image.png'"></ion-img>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ article.title }}</ion-card-title>
+      <ion-card-subtitle>{{ article.source?.name }} - {{ article.publishedAt | date }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ article.description }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

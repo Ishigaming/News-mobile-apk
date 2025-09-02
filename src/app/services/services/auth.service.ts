@@ -5,7 +5,7 @@ export interface User {
   name: string;
   lastName: string;
   email: string;
-  password: string; // contraseña encriptada
+  password: string; 
   nationality?: string;
 }
 
@@ -16,14 +16,22 @@ export class AuthService {
 
   constructor() { }
 
-  // Obtener todos los usuarios registrados desde localStorage
   private getUsers(): User[] {
     return JSON.parse(localStorage.getItem('users') || '[]');
   }
 
-  // Guardar todos los usuarios en localStorage
   private saveUsers(users: User[]) {
     localStorage.setItem('users', JSON.stringify(users));
+  }
+  updateUser(updateUser: User): void {
+    const users = this.getUsers();
+    const index = users.findIndex(u => u.email === updateUser.email);
+
+    if (index !== -1) {
+      users[index] = updateUser;
+      this.saveUsers(users);
+      localStorage.setItem('user', JSON.stringify(updateUser));
+    }
   }
 
   register(name: string, lastName: string, email: string, password: string, confirmPassword: string, nationality?: string): boolean {
@@ -32,7 +40,7 @@ export class AuthService {
     const users = this.getUsers();
 
     if (users.find(u => u.email === email)) {
-      return false; // usuario ya existe
+      return false; 
     }
 
     const hashedPassword = CryptoJS.SHA256(password).toString();
@@ -52,7 +60,7 @@ export class AuthService {
     const user = users.find(u => u.email === email && u.password === hashedPassword);
 
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user)); // usuario logueado
+      localStorage.setItem('user', JSON.stringify(user)); 
       return true;
     }
 
