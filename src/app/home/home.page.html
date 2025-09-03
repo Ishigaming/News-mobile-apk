@@ -3,7 +3,7 @@
     <ion-toolbar color="primary">
       <ion-item lines="none" detail="false" (click)="goToProfile()">
         <ion-avatar slot="start">
-          <img [src]="user.avatar || 'assets/avatar.png'" alt="user" />
+          <img [src]="user.avatar || 'assets/images/avatar.png'" alt="user" />
         </ion-avatar>
         <ion-label>
           <h2>{{ user.name }} {{ user.lastName }}</h2>
@@ -37,7 +37,7 @@
       <ion-buttons slot="end">
         <ion-menu-button menu="main-menu">
           <ion-avatar>
-            <img src="assets/avatar.png" alt="user" />
+            <img src="assets/images/avatar.png" alt="user" />
           </ion-avatar>
         </ion-menu-button>
       </ion-buttons>
@@ -46,7 +46,7 @@
   <ion-content class="ion-padding">
     <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
       <ion-list *ngIf="!loading">
-        <ion-item *ngFor="let article of articles" (click)="openArticle(article)">
+        <ion-item *ngFor="let article of articles" (click)="goToDetails(article)">
           <ion-thumbnail slot="start">
             <img [src]="article.urlToImage || 'assets/no-image.png'">
           </ion-thumbnail>

@@ -78,9 +78,12 @@ export class HomePage implements OnInit {
     this.menuCtrl.close();
   }
 
-  openArticle(article: any) {
-    this.router.navigate(['/news-details']); { state: { article }};
+  goToDetails(article: any) {
+    this.router.navigate(['/news-details'], {
+      queryParams: { article: JSON.stringify(article) }
+    });
   }
+  
 
   openMenu() {
     this.menuCtrl.open('main-menu')

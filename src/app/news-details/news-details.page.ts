@@ -29,5 +29,6 @@ export class NewsDetailsPage implements OnInit {
   } openUrl(url: string) {
     this.iab.create(url, '_system'); 
   }
+  
 
 }
